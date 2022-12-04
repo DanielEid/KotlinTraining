@@ -45,6 +45,35 @@ private fun implementezDifferentesFonctions() {
 
 }
 
+private fun generezVosPremiereClasses() {
+
+    class User(
+        val email: String,
+        var password: String,
+        var age: Int
+    )  //It's a class in one line, val private , var public
+
+    val user: User = User("user@mail.com", "qwerty", 26);  //Object created
+
+    user.age = 27; //setter
+    println("${user.age}") //getter
+
+    /*Custom getters and setters and private class field*/
+    class UserCustom(email: String, private var password: String, var age: Int) {
+        var email: String = email
+            get() {
+                println("User is getting his email")
+                return field
+            }
+            set(value) {
+                println("User is setting his email")
+                field = value
+            }
+    }
+
+    val userCustom = UserCustom("userCutom@mail.com", "qwerty", 30);
+    print(userCustom.email)
+}
 
 fun main(args: Array<String>) {
 
@@ -52,5 +81,6 @@ fun main(args: Array<String>) {
 
     declarerEtInitialisezDesVariables();
     implementezDifferentesFonctions();
+    generezVosPremiereClasses();
 
 }
