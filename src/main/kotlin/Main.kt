@@ -187,6 +187,58 @@ private fun iterezGraceAuxBoucles() {
     listOfNames1.add("Mathieu Nebra") // => SUCCESS !
 }
 
+private fun smartCast() {
+
+    /*SMART CAST*/
+
+    //This three function are same
+
+    fun getDefaultSizeOldSchool(anyObject: Any): Int {
+        // Vérification du type
+        if (anyObject is String) {
+            return anyObject.length
+            // Vérification du type
+        } else if (anyObject is List<*>) {
+            return anyObject.size
+        }
+        return 0
+    }
+
+    fun getDefaultSizeImproved(anyObject: Any) =
+        if (anyObject is String) anyObject.length
+        else if (anyObject is List<*>) anyObject.size
+        else 0
+
+    fun getDefaultSize(anyObject: Any) = when (anyObject) { //BEST
+        is String -> anyObject.length
+        is List<*> -> anyObject.size
+        else -> 0
+    }
+
+    println(getDefaultSizeOldSchool(listOf("AA", "BB", "CC")))
+    println(getDefaultSizeImproved(listOf("AA", "BB", "CC")))
+    println(getDefaultSize("Unchained"))
+
+
+    /*CONVERTION*/
+    /*unsecure cast*/
+    val anyObject: Any = "Hello Kotlin students !"
+    val message = anyObject as String
+    println(message)
+
+    /*Secure cast but old school*/
+    try {
+        val message = anyObject as Int
+        print(message)
+
+    } catch (e: ClassCastException) {
+        println("Error !")
+    }
+    /*Secure cast kotlin friendly*/
+    val message0: Int? = anyObject as? Int
+    print(message0)
+}
+
 fun main(args: Array<String>) {
 
     println("Program arguments: ${args.joinToString()}")
@@ -196,5 +248,5 @@ fun main(args: Array<String>) {
     //generezVosPremiereClasses();
     //gerezDesChoixEtDesConditions();
     //iterezGraceAuxBoucles();
-
+    //smartCast();
 }
