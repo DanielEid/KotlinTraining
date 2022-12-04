@@ -1,4 +1,5 @@
 import java.awt.Button
+import java.lang.Exception
 
 /**
  * https://openclassrooms.com/fr/courses/5353106-initiez-vous-a-kotlin/5354811-declarez-et-initialisez-des-variables
@@ -239,6 +240,30 @@ private fun smartCast() {
     print(message0)
 }
 
+private fun maitrisezLesExceptions() {
+
+    fun substractNumber(a: Int, b: Int) = if (a >= b) a - b else throw Exception("A is smaller than B")
+
+    // println(substractNumber(10,16))  // Exception not handled
+    try {
+        println(substractNumber(10, 16)) // Exception handled
+    } catch (e: Exception) {
+        println(e.message);
+    }
+
+    val result = try { substractNumber(10,20) } catch (e: Exception) { 0 }
+    print(result) //Exception as a valuer
+
+
+    // Nothing est le Type retourné d'une expression "throw", Opérateur Elvis (?:) : action conditionelle si null
+    class User(val email: String?, val password: String?)
+    fun fail(message: String): Nothing = throw IllegalStateException(message) //Nothing typeof a throw
+
+    val user = User("toto@gmail.com", "azerty")
+    val password = user.password ?: fail("Password required")
+    val email = user.email ?: fail("Email required")
+}
+
 fun main(args: Array<String>) {
 
     println("Program arguments: ${args.joinToString()}")
@@ -249,4 +274,5 @@ fun main(args: Array<String>) {
     //gerezDesChoixEtDesConditions();
     //iterezGraceAuxBoucles();
     //smartCast();
+    //maitrisezLesExceptions()
 }
