@@ -101,17 +101,17 @@ private fun gerezDesChoixEtDesConditions() {
 
 
     /*WHEN FOR NUMBERS RANGE*/
-    val numberToFind= 27
-    when(numberToFind){
-        in 1..20-> println("1<20")
-        in 21..30-> println("1<20")
+    val numberToFind = 27
+    when (numberToFind) {
+        in 1..20 -> println("1<20")
+        in 21..30 -> println("1<20")
         else -> println("out of bounds");
     }
 
     /*ENUMERATION*/
     val response: ApiResponse = ApiResponse.OK
 
-    when(response){
+    when (response) {
         ApiResponse.OK -> print("OK")
         ApiResponse.NOT_FOUND -> print("NOT_FOUND")
         ApiResponse.UNAUTHORIZED -> print("UNAUTHORIZED")
@@ -119,12 +119,72 @@ private fun gerezDesChoixEtDesConditions() {
         ApiResponse.UNKNOWN -> print("UNKNOWN")
     }
 }
-enum class ApiResponse (val code: Int) {     /*ENUMERATION USED FOR gerezDesChoixEtDesConditions but can't be in fuction*/
+
+enum class ApiResponse(val code: Int) {     /*ENUMERATION USED FOR gerezDesChoixEtDesConditions but can't be in fuction*/
     OK(200),
     NOT_FOUND(404),
     UNAUTHORIZED(401),
     FORBIDDEN(403),
     UNKNOWN(0)
+}
+
+private fun iterezGraceAuxBoucles() {
+
+    var isARainyDay = true;
+    while (isARainyDay) {
+        println("#RAINING#");
+        isARainyDay = false
+    }
+
+    do {
+        println("#RAINING#");
+    } while (isARainyDay)
+
+    /*LOOPS FOR*/
+
+    val names = listOf("Jake Wharton", "Joe Birch", "Robert Martin");
+
+    for (name in names) {  //ForEach
+        println("This developer rocks : $name");
+    }
+
+    for (i in names.indices) { // For int i
+        println("This developer with number $i rocks : ${names[i]}")
+    }
+
+    for ((index, value) in names.withIndex()) { // For int i
+        println("This developer with number $index rocks : $value")
+    }
+
+    for (i in 1..3) {  //Other way like for int i
+        println("I love this number : $i")
+    }
+
+    for (i in 0..3) println(i) //Other way like for int i
+
+    for (i in 10 downTo 1 step 2) println("Index is :$i") //10 to 1 with step 2
+
+    for (i in 1..10 step 2) println("Index is :$i") //1 to 10 with step 2
+
+    // listOf
+    val listOfNames = listOf("Jake Wharton", "Joe Birch", "Robert Martin")
+    listOfNames[0] // => Jake Wharton
+    //listOfNames[0] = "Mathieu Nebra" // => ERROR ! List is immutable
+
+// mutableListOf
+    val listOfNames1 = mutableListOf("Jake Wharton", "Joe Birch", "Robert Martin")
+    listOfNames1[0] // => Jake Wharton
+    listOfNames1[0] = "Mathieu Nebra" // => SUCCESS !
+
+// setOf
+    val setOfNames = setOf("Jake Wharton", "Joe Birch", "Robert Martin")
+    setOfNames.first() // => Jake Wharton
+    //setOfNames.add("Mathieu Nebra") // => ERROR ! Set is immutable
+
+// mutableSetOf
+    val setOfNames1 = mutableSetOf("Jake Wharton", "Joe Birch", "Robert Martin")
+    listOfNames1.first() // => Jake Wharton
+    listOfNames1.add("Mathieu Nebra") // => SUCCESS !
 }
 
 fun main(args: Array<String>) {
@@ -135,5 +195,6 @@ fun main(args: Array<String>) {
     //implementezDifferentesFonctions();
     //generezVosPremiereClasses();
     //gerezDesChoixEtDesConditions();
+    //iterezGraceAuxBoucles();
 
 }
