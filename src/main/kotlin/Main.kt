@@ -75,12 +75,65 @@ private fun generezVosPremiereClasses() {
     print(userCustom.email)
 }
 
+private fun gerezDesChoixEtDesConditions() {
+    /*IF & ELSE*/
+    var a = 10;
+    var b = 50;
+
+    val result = if (a > b) {           //Works as "expretion" not "instruction" like java
+        a++
+        a                           //it's a return
+    } else {
+        b++; b
+    }                  //if i want one line ; is used
+
+    println("Result is: $result")
+
+    /*SWITCH IN KOTLIN: WHEN*/
+
+    fun printResponse(apiResponse: Int) = when (apiResponse) {
+        200, 201, 202 -> println("OK")
+        300, 301, 302 -> println("REDIRECTION")
+        400, 404 -> println("ERROR")
+        else -> println("UNKNOWN")
+    }
+    printResponse(404);  //2nd way on website
+
+
+    /*WHEN FOR NUMBERS RANGE*/
+    val numberToFind= 27
+    when(numberToFind){
+        in 1..20-> println("1<20")
+        in 21..30-> println("1<20")
+        else -> println("out of bounds");
+    }
+
+    /*ENUMERATION*/
+    val response: ApiResponse = ApiResponse.OK
+
+    when(response){
+        ApiResponse.OK -> print("OK")
+        ApiResponse.NOT_FOUND -> print("NOT_FOUND")
+        ApiResponse.UNAUTHORIZED -> print("UNAUTHORIZED")
+        ApiResponse.FORBIDDEN -> print("FORBIDDEN")
+        ApiResponse.UNKNOWN -> print("UNKNOWN")
+    }
+}
+enum class ApiResponse (val code: Int) {     /*ENUMERATION USED FOR gerezDesChoixEtDesConditions but can't be in fuction*/
+    OK(200),
+    NOT_FOUND(404),
+    UNAUTHORIZED(401),
+    FORBIDDEN(403),
+    UNKNOWN(0)
+}
+
 fun main(args: Array<String>) {
 
     println("Program arguments: ${args.joinToString()}")
 
-    declarerEtInitialisezDesVariables();
-    implementezDifferentesFonctions();
-    generezVosPremiereClasses();
+    //declarerEtInitialisezDesVariables();
+    //implementezDifferentesFonctions();
+    //generezVosPremiereClasses();
+    //gerezDesChoixEtDesConditions();
 
 }
