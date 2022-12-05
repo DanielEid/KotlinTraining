@@ -1,4 +1,5 @@
-import java.awt.Button
+import utils.FACEBOOK_TOKEN
+import utils.logMessage
 import java.lang.Exception
 
 /**
@@ -251,17 +252,53 @@ private fun maitrisezLesExceptions() {
         println(e.message);
     }
 
-    val result = try { substractNumber(10,20) } catch (e: Exception) { 0 }
+    val result = try {
+        substractNumber(10, 20)
+    } catch (e: Exception) {
+        0
+    }
     print(result) //Exception as a valuer
 
 
     // Nothing est le Type retourné d'une expression "throw", Opérateur Elvis (?:) : action conditionelle si null
     class User(val email: String?, val password: String?)
+
     fun fail(message: String): Nothing = throw IllegalStateException(message) //Nothing typeof a throw
 
     val user = User("toto@gmail.com", "azerty")
     val password = user.password ?: fail("Password required")
     val email = user.email ?: fail("Email required")
+}
+
+private fun ameliorezVosFonctions() {
+
+    /*PAR DEFAULT*/
+    fun manyArgs(caller: String, number1: Int, number2: Int) =
+        if (number1 > number2) number1 else if (number2 > number1) number2 else "two numbers equals"
+
+     fun manyArgs(number2: Int)= manyArgs("You",10, number2) // Surcharge, Overloading a method ... in java style
+    // fun manyArgs(caller: String = "Overload in Kotlin", number1: Int = 0, number2: Int = 5)   //Overload style in Kotlin, ... but here it's doesn't works and I don't know why????
+    manyArgs(caller = "Me", number1 = 10, number2 = 5); //Call with parameters name for more visibily, not really usefull with modern IDE
+
+    // @JvmOverloads // @JvmOverloads  for compatibily with java
+    fun oldSchool(a: Int= 1, b: Int = 2): Int {  // It's seem it's like this, no overide but defaults parameters in the function
+         return a+b
+    }
+    println(oldSchool());
+    println(oldSchool(10,10));
+
+
+ /*FONCTIONS TIMIDES*/
+/**
+ * Les fonctions timides sont des fonctions se trouvant a l'interieur d'autres fonctions pour diverses raisons
+ * Ce que je fait depuis le debut du cours...
+ * */
+
+/*LE TOP DU TOP*/
+
+    /*top level function = like static but better*/
+    logMessage("This is a top level function") // Like static functions, can be call in WHOLE kotlin project and super easy
+    logMessage(FACEBOOK_TOKEN); //For const in whole project it's like top-level function
 }
 
 fun main(args: Array<String>) {
@@ -275,4 +312,5 @@ fun main(args: Array<String>) {
     //iterezGraceAuxBoucles();
     //smartCast();
     //maitrisezLesExceptions()
+    ameliorezVosFonctions();
 }
