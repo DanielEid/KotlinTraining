@@ -1,6 +1,9 @@
+import extensions.firstLetter
+import extensions.sayHello
 import utils.FACEBOOK_TOKEN
 import utils.logMessage
 import java.lang.Exception
+import java.lang.StringBuilder
 
 /**
  * https://openclassrooms.com/fr/courses/5353106-initiez-vous-a-kotlin/5354811-declarez-et-initialisez-des-variables
@@ -276,29 +279,43 @@ private fun ameliorezVosFonctions() {
     fun manyArgs(caller: String, number1: Int, number2: Int) =
         if (number1 > number2) number1 else if (number2 > number1) number2 else "two numbers equals"
 
-     fun manyArgs(number2: Int)= manyArgs("You",10, number2) // Surcharge, Overloading a method ... in java style
+    fun manyArgs(number2: Int) = manyArgs("You", 10, number2) // Surcharge, Overloading a method ... in java style
     // fun manyArgs(caller: String = "Overload in Kotlin", number1: Int = 0, number2: Int = 5)   //Overload style in Kotlin, ... but here it's doesn't works and I don't know why????
-    manyArgs(caller = "Me", number1 = 10, number2 = 5); //Call with parameters name for more visibily, not really usefull with modern IDE
+    manyArgs(
+        caller = "Me",
+        number1 = 10,
+        number2 = 5
+    ); //Call with parameters name for more visibily, not really usefull with modern IDE
 
     // @JvmOverloads // @JvmOverloads  for compatibily with java
-    fun oldSchool(a: Int= 1, b: Int = 2): Int {  // It's seem it's like this, no overide but defaults parameters in the function
-         return a+b
+    fun oldSchool(
+        a: Int = 1,
+        b: Int = 2
+    ): Int {  // It's seem it's like this, no overide but defaults parameters in the function
+        return a + b
     }
     println(oldSchool());
-    println(oldSchool(10,10));
+    println(oldSchool(10, 10));
 
 
- /*FONCTIONS TIMIDES*/
-/**
- * Les fonctions timides sont des fonctions se trouvant a l'interieur d'autres fonctions pour diverses raisons
- * Ce que je fait depuis le debut du cours...
- * */
+    /*FONCTIONS TIMIDES*/
+    /**
+     * Les fonctions timides sont des fonctions se trouvant a l'interieur d'autres fonctions pour diverses raisons
+     * Ce que je fait depuis le debut du cours...
+     * */
 
-/*LE TOP DU TOP*/
+    /*LE TOP DU TOP*/
 
     /*top level function = like static but better*/
     logMessage("This is a top level function") // Like static functions, can be call in WHOLE kotlin project and super easy
     logMessage(FACEBOOK_TOKEN); //For const in whole project it's like top-level function
+}
+
+private fun decouvrezLesExtentions() {
+    val string: String = "Bonjour"
+    val stringBuilder: StringBuilder = StringBuilder("Bonsoir")
+    string.sayHello()  //Extends the String class without heritage ! Like "top-level function"
+    println(stringBuilder.firstLetter)
 }
 
 fun main(args: Array<String>) {
@@ -312,5 +329,6 @@ fun main(args: Array<String>) {
     //iterezGraceAuxBoucles();
     //smartCast();
     //maitrisezLesExceptions()
-    ameliorezVosFonctions();
+    //ameliorezVosFonctions();
+    //decouvrezLesExtentions()
 }
