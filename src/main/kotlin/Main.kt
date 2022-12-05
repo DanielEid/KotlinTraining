@@ -2,6 +2,7 @@ import extensions.firstLetter
 import extensions.sayHello
 import utils.FACEBOOK_TOKEN
 import utils.logMessage
+import java.awt.Color
 import java.lang.Exception
 import java.lang.StringBuilder
 
@@ -318,6 +319,53 @@ private fun decouvrezLesExtentions() {
     println(stringBuilder.firstLetter)
 }
 
+private fun enrichissezVosClasses() {
+
+    //open class Button(var color: String){         //open indicate the class can be inherit , do the same for functions
+    open class Button(var color: String = "FFF") {         //open indicate the class can be inherit , do the same for functions, with default parameters
+        init {
+            println("Button created")
+        }
+
+        /* 2nd constructor, if a button is created without the color, this default parameter is applied
+        * But it's better to user default parameters*/
+        constructor() : this("FFF");
+        open fun show() = "Show"
+        open fun hide() = "hide"
+
+    }
+
+    class CircularButton(color: String) : Button(color) {  //Do not indicate that a var, because the parent class did it
+        override fun show() = super.show() + "circular"
+        override fun hide() = super.hide() + "circular"
+    }
+
+    /*Data class and companions object under this function*/
+
+    val user = User.newInstanceAfterSignUp("toto@gmail.com", "azerty")
+    val secondUser = User.Generator.newInstanceAfterSignUp("tata@gmail.com", "youhou")
+
+    /*Singleton instance*/
+    println(MySingleton.getSingleton())
+
+}
+
+/*
+    *Data class: kotlin know this object is use to store data, so it implement the functions used for storage (equals, hashcode,...)
+*/
+data class User(var email: String, var password: String, var isConnected: Boolean) {
+    /*
+    * Allow us to access to methods inside a class ,even if the object is not created*/
+    companion object Generator { // Can have a name
+        fun newInstanceAfterSignUp(email: String, password: String) = User(email, password, isConnected = true)
+    }
+}
+
+object MySingleton {
+    fun getSingleton(): String = "Singleton"
+    fun saveSingleton(string: String) = "Save singleton"
+}
+
 fun main(args: Array<String>) {
 
     println("Program arguments: ${args.joinToString()}")
@@ -331,4 +379,5 @@ fun main(args: Array<String>) {
     //maitrisezLesExceptions()
     //ameliorezVosFonctions();
     //decouvrezLesExtentions()
+    //enrichissezVosClasses();
 }
