@@ -2,9 +2,8 @@ import extensions.firstLetter
 import extensions.sayHello
 import utils.FACEBOOK_TOKEN
 import utils.logMessage
-import java.awt.Color
-import java.lang.Exception
-import java.lang.StringBuilder
+import java.awt.Button
+import javax.swing.text.View
 
 /**
  * https://openclassrooms.com/fr/courses/5353106-initiez-vous-a-kotlin/5354811-declarez-et-initialisez-des-variables
@@ -366,6 +365,93 @@ object MySingleton {
     fun saveSingleton(string: String) = "Save singleton"
 }
 
+
+private fun tirezpartiDesLambdas() {
+
+    /*button.setOnClickListener(new View.OnClickListener(){ // In java
+        @Override
+        public void onCLick(View v){
+            System.out.println("User has clicked on button !")
+        }
+    });*/
+    /*
+        button.setOnClickListener ( { v: View -> println("User has clicked on button !") } )
+        button.setOnClickListener { v: View -> println("User has clicked on button !") }
+        button.setOnClickListener { v -> println("User has clicked on button !") }
+        button.setOnClickListener { println("User has clicked on button !") }
+        */
+
+    // Lambda
+    val addition = { x: Int, y: Int -> x + y }
+    val substraction = { x: Int, y: Int -> x - y }
+    val division = { x: Int, y: Int -> x / y }
+    println(addition(1, 1))
+    // Fonction anonyme
+    fun() { println("Hello guys !") }
+
+    /*Last night a lambda save my life*/
+
+    /*In java*/
+    /*
+    TextView textView = new TextView(this);
+    textView.setVisibility(View.VISIBLE);
+    textView.setText("Hello world !");
+    textView.setTextSize(19f);
+    textView.setMaxLines(3);
+    */
+
+    /*In Kotlin*/
+    /*
+    val textView = TextView(this)
+    textView.apply {
+    visibility = View.VISIBLE
+    text = "Hello world !"
+    textSize = 19f
+    maxLines = 3
+    }
+     */
+
+    /*Ne soyons pas null*/
+    val message: String? = "Hello OpenClassrooms students !"
+    if (message != null) println(message)
+
+    val message1: String? = "Hello OpenClassrooms students !"
+    message1?.let { print(it) }
+
+    /*Initialisation d'une variable lourde seulement quand elle sera executée*/
+    val veryBigArray: Array<Int> by lazy {
+        Array(1000000){ it }
+    }
+
+    data class User(var email: String, var age: Int)
+
+    val users = listOf(
+        User("toto@gmail.com", 20),
+        User("hello@gmail.com", 18),
+        User("oc@gmail.com", 35))
+
+// Get user(s) with age >= 20
+    users.filter { it.age >= 20 }  // [User("toto@gmail.com", 20), User("oc@gmail.com", 35)]
+
+// Get the email of each user
+    users.map { it.email }      // [toto@gmail.com, hello@gmail.com, oc@gmail.com]
+
+// Get the email of eeach user who is >= 20
+    print(users.filter{ it.age >= 20 }.map { it.email })    // [toto@gmail.com, oc@gmail.com]
+
+    // Is all users >= 20 ?
+    users.all { it.age >= 20 }    // false
+
+// Is any user >= 35 ?
+    users.any { it.age > 35 }      // true
+
+// How many user are >= 20 ?
+    users.count { it.age > 20 }      // 2
+
+// Find the first user who is >= 20
+    users.find{ it.age >= 20 }    // User(email="toto@gmail.com", age=20)
+}
+
 fun main(args: Array<String>) {
 
     println("Program arguments: ${args.joinToString()}")
@@ -380,4 +466,5 @@ fun main(args: Array<String>) {
     //ameliorezVosFonctions();
     //decouvrezLesExtentions()
     //enrichissezVosClasses();
+    //tirezpartiDesLambdas()
 }
