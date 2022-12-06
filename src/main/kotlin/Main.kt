@@ -5,6 +5,7 @@ import io.ktor.server.application.*
 import io.ktor.server.engine.*
 import io.ktor.server.netty.*
 import com.example.plugins.*
+import com.google.gson.Gson
 import java.net.BindException
 
 fun main() {
@@ -18,9 +19,6 @@ fun main() {
 }
 
 fun Application.module() {
-
     /*Routing*/
     courseRouting()
-
-
 }

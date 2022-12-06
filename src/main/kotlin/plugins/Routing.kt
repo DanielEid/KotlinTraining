@@ -36,7 +36,6 @@ fun Application.courseRouting() {
         route("/courses") {
             get {
                 return@get call.respondText(courseStorage.toString(), status = HttpStatusCode.OK)
-
             }
         }
         route("/course") {
@@ -44,7 +43,7 @@ fun Application.courseRouting() {
                 return@post call.respondText("ca marche le post ")
             }
             get("/top") {
-                return@get call.respondText(getMostDifficultCourse().toString(), status = HttpStatusCode.OK)
+                return@get call.respondText(getMostDifficultCourse().toJson(), status = HttpStatusCode.OK)
             }
             get("/{id?}") {
                 val id =
@@ -53,13 +52,13 @@ fun Application.courseRouting() {
                         status = HttpStatusCode.BadRequest
                     )
                 val course = searchCourseById(id.toInt())
-                if (course is Course) return@get call.respondText(course.toString(), status = HttpStatusCode.OK)
+                if (course is Course) return@get call.respondText(course.toJson(), status = HttpStatusCode.OK)
                 else {
                     return@get call.respondText(
-                        "Not Found", status = HttpStatusCode.NotFound
+                        "Not Found: Course with _id: $id", status = HttpStatusCode.NotFound
                     )
                 }
-                //Best way but I don't really understood how it's works...
+                //Best way but I don't really understand how it's works...
                 /* else {
                     course = courseStorage.find {
                         it._id ==
