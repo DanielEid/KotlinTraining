@@ -15,16 +15,9 @@ fun main() {
     catch (e: BindException){
         println(e.message)
     }
-    var course : Course = Course("0","title","content",1,true)
-
-
 }
 
 fun Application.module() {
-
-    /*Data init*/
-   // val courseStorage = Course.createCourses(10)
-    //for (course in courseStorage) println(course.level)
 
     /*Routing*/
     courseRouting()

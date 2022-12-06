@@ -5,56 +5,77 @@ import io.ktor.server.routing.*
 import io.ktor.http.*
 import io.ktor.server.application.*
 import io.ktor.server.response.*
-import io.ktor.server.request.*
-import io.ktor.util.reflect.*
-import utils.OK
-
 
 fun Application.courseRouting() {
 
     /*Data init*/
     val courseStorage = Course.createCourses(10)
     for (course in courseStorage) println(course._id)
-    fun searchCourseById(id: String): Any {
+    fun searchCourseById(id: Int): Any {
         for (course in courseStorage)
             if (course._id == id) return course
         return false
     }
 
-    routing {
-        get("/") {
-            call.respondText("${OK}: Welcome to OC web server")
-        }
-    }
-    routing {
-        get("/courses") {
-            call.respondText { courseStorage.toString() }
-        }
-        get("/course") {
-        }
-        get("course/{id?}") {
-            val id =
-                call.parameters["id"] ?: return@get call.respondText("Bad Request", status = HttpStatusCode.BadRequest)
-            var course = searchCourseById(id);
-            if (course is Course) call.respondText(course.toString())
-            else {
-                course = courseStorage.find {
-                    it._id ==
-                            id
-                } ?: return@get call.respondText(
-                    "Not Found", status = HttpStatusCode.NotFound
-                )
-            }
+    fun getMostDifficultCourse(): Course {
+        var mostDifficultCourse: Course = courseStorage[0]
 
-            call.respond(course)
+        for (course in courseStorage) {
+            if (course.level > mostDifficultCourse.level) mostDifficultCourse =
+                course //If course as same level, it's ignored (because not indicate in the train)
         }
-        /*get("course/{id?}") {
-            val id =
-                call.parameters["id"] ?: return@get call.respondText("Bad Request", status = HttpStatusCode.BadRequest)
-            val course = courseStorage.find { it._id == id } ?: return@get call.respondText(
-                "Not Found", status = HttpStatusCode.NotFound
-            )
-            call.respond(course)
-        }*/
+        return mostDifficultCourse
     }
+
+    routing {
+        route("/") {
+            get {
+                call.respondText("Welcome to OC web server", status = HttpStatusCode.OK)
+            }
+        }
+        route("/courses") {
+            get {
+                return@get call.respondText(courseStorage.toString(), status = HttpStatusCode.OK)
+
+            }
+        }
+        route("/course") {
+            post() {
+                return@post call.respondText("ca marche le post ")
+            }
+            get("/top") {
+                return@get call.respondText(getMostDifficultCourse().toString(), status = HttpStatusCode.OK)
+            }
+            get("/{id?}") {
+                val id =
+                    call.parameters["id"] ?: return@get call.respondText(
+                        "Bad Request",
+                        status = HttpStatusCode.BadRequest
+                    )
+                val course = searchCourseById(id.toInt())
+                if (course is Course) return@get call.respondText(course.toString(), status = HttpStatusCode.OK)
+                else {
+                    return@get call.respondText(
+                        "Not Found", status = HttpStatusCode.NotFound
+                    )
+                }
+                //Best way but I don't really understood how it's works...
+                /* else {
+                    course = courseStorage.find {
+                        it._id ==
+                                id
+                    } ?: return@get call.respondText(
+                        "Not Found", status = HttpStatusCode.NotFound
+                    )
+                }*/
+
+            }
+        }
+        route("/*") {//Others cases
+            get{
+                call.respondText("Bad Request", status = HttpStatusCode.BadRequest)
+            }
+        }
+
+        }
 }
