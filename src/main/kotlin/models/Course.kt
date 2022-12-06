@@ -15,5 +15,21 @@ fun toJson()= "{\"_id:\"${this._id},\"title\":\"${this.title}\",\"content\":\"${
             }
             return listOfCourse
         }
+
+        fun searchCourseById(courseStorage: MutableList<Course>, id: Int): Any {
+            for (course in courseStorage)
+                if (course._id == id) return course
+            return false
+        }
+
+        fun getMostDifficultCourse(courseStorage : MutableList<Course>): Course {
+            var mostDifficultCourse: Course = courseStorage[0]
+
+            for (course in courseStorage) {
+                if (course.level > mostDifficultCourse.level) mostDifficultCourse =
+                    course //If course as same level, it's ignored (because not indicate in the train)
+            }
+            return mostDifficultCourse
+        }
     }
 }

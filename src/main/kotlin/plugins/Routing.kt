@@ -1,6 +1,8 @@
 package com.example.plugins
 
 import com.example.models.Course
+import com.example.models.Course.CourseFactory.getMostDifficultCourse
+import com.example.models.Course.CourseFactory.searchCourseById
 import io.ktor.server.routing.*
 import io.ktor.http.*
 import io.ktor.server.application.*
@@ -10,22 +12,6 @@ fun Application.courseRouting() {
 
     /*Data init*/
     val courseStorage = Course.createCourses(10)
-    for (course in courseStorage) println(course._id)
-    fun searchCourseById(id: Int): Any {
-        for (course in courseStorage)
-            if (course._id == id) return course
-        return false
-    }
-
-    fun getMostDifficultCourse(): Course {
-        var mostDifficultCourse: Course = courseStorage[0]
-
-        for (course in courseStorage) {
-            if (course.level > mostDifficultCourse.level) mostDifficultCourse =
-                course //If course as same level, it's ignored (because not indicate in the train)
-        }
-        return mostDifficultCourse
-    }
 
     routing {
         route("/") {
@@ -43,7 +29,7 @@ fun Application.courseRouting() {
                 return@post call.respondText("ca marche le post ")
             }
             get("/top") {
-                return@get call.respondText(getMostDifficultCourse().toJson(), status = HttpStatusCode.OK)
+                return@get call.respondText(getMostDifficultCourse(courseStorage).toJson(), status = HttpStatusCode.OK)
             }
             get("/{id?}") {
                 val id =
@@ -51,7 +37,7 @@ fun Application.courseRouting() {
                         "Bad Request",
                         status = HttpStatusCode.BadRequest
                     )
-                val course = searchCourseById(id.toInt())
+                val course = searchCourseById(courseStorage, id.toInt())
                 if (course is Course) return@get call.respondText(course.toJson(), status = HttpStatusCode.OK)
                 else {
                     return@get call.respondText(
@@ -71,10 +57,9 @@ fun Application.courseRouting() {
             }
         }
         route("/*") {//Others cases
-            get{
+            get {
                 call.respondText("Bad Request", status = HttpStatusCode.BadRequest)
             }
         }
-
-        }
+    }
 }
